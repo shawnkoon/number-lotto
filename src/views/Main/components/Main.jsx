@@ -16,12 +16,38 @@ export const Main = (props) => (
       <Image src={props.image} responsive />
     </div>
     <div className="gauge-group">
-      <ProgressBar active bsStyle="success" now={props.currentPercentage} label={`${props.currentPercentage}%`}/>
-      <ProgressBar active bsStyle="danger" now={props.boostPercentage} label={`${props.boostPercentage/3}%`} min={0} max={300}/>
+      <ProgressBar
+        active
+        bsStyle="success"
+        now={props.currentPercentage}
+        label={`${props.currentPercentage}%`}
+      />
+      <ProgressBar
+        active
+        bsStyle="danger"
+        now={props.boostPercentage}
+        label={`${props.boostPercentage / 3}%`}
+        min={0}
+        max={300}
+      />
     </div>
     <div className="button-group">
-      <Button bsStyle="success" block>Go!</Button>
-      <Button bsStyle="danger" block>BOOST</Button>
+      <Button
+        bsStyle="success"
+        disabled={props.isRunning}
+        onClick={props.onGoClick}
+        block
+      >
+        Go!
+      </Button>
+      <Button
+        bsStyle="danger"
+        disabled={!props.isRunning}
+        onClick={props.onBoostClick}
+        block
+      >
+        BOOST
+      </Button>
     </div>
   </div>
 );
