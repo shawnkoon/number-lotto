@@ -3,8 +3,10 @@ import questionBox from '../../assets/static/question_box.gif';
 
 // Component
 import { Main } from './components/Main';
+import { ProgressBars } from './components/ProgressBars';
 
-let percentageInterval;
+let PERCENT_INTERVAL;
+const MAX_BOOST_VALUE = 250;
 
 export class MainContainer extends React.Component {
   constructor(props) {
@@ -23,11 +25,17 @@ export class MainContainer extends React.Component {
   render() {
     return (
       <Main
-        { ...this.state }
+        isRunning={this.state.isRunning}
         image={questionBox}
         onGoClick={this.onGoClick}
         onBoostClick={this.onBoostClick}
-      />
+      >
+        <ProgressBars
+          currentPercentage={this.state.currentPercentage}
+          boostPercentage={this.state.boostPercentage}
+          boostMaxValue={MAX_BOOST_VALUE}
+        />
+      </Main>
     );
   }
 
@@ -35,18 +43,20 @@ export class MainContainer extends React.Component {
     e.preventDefault();
     this.setState({ currentPercentage: 0, boostPercentage: 0, isRunning : true });
 
-    percentageInterval = setInterval(() => {
+    PERCENT_INTERVAL = setInterval(() => {
       if (this.state.currentPercentage < 100) {
         this.setState({ currentPercentage: this.state.currentPercentage + 1 });
       } else {
-        clearInterval(percentageInterval);
+        clearInterval(PERCENT_INTERVAL);
         this.setState({ isRunning: false })
       }
-    }, 300);
+    }, 320);
   }
 
   onBoostClick(e) {
     e.preventDefault();
-    this.setState({ boostPercentage: this.state.boostPercentage + 1 });
+    if (this.state.boostPercentage < MAX_BOOST_VALUE) {
+      this.setState({ boostPercentage: this.state.boostPercentage + 1 });
+    }
   }
 }
